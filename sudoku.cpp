@@ -3,6 +3,7 @@
 
 void Sudoku::enterDigits()
 {
+	//add numbers, empty squares add "0"
 	std::cout << "Please add numbers from 1 to 9." << std::endl;
 	for (int i = 0; i < size; i++)
 	{
@@ -10,7 +11,10 @@ void Sudoku::enterDigits()
 		{
 			int number;
 			std::cin >> number;
-			Board[i][j] = number;
+			if(number<1 || number>9)
+				Board[i][j]=0;
+			else
+				Board[i][j] = number;
 		}
 	}
 	std::cout << "Thanks!All numbers have been added successfully." << std::endl;
@@ -18,9 +22,12 @@ void Sudoku::enterDigits()
 
 void Sudoku::solve()
 {
-	bool finish = false;;
+	//check completely solved or not. If not, continue the cycle in while.
+	bool finish = false;
+
 	while (!finish)
 	{
+		//if it finds at least one empty cell, the "finish" is changed to false
 		finish = true;
 		for (int i = 0; i < size; i++)
 		{
@@ -28,12 +35,21 @@ void Sudoku::solve()
 			{
 				if (Board[i][j] == 0)
 				{
+					//found an empty cell, the cycle will continue
 					finish = false;
-					int quantity = 0;
+
+					//check how many possible coincidences are in one cell
+					int coincidences = 0;
+
+
 					int selectedNumber;
 					for (int number = 1; number <= size; number++)
 					{
+
+						//is the number checked for the cell? If no non=false, go to the next number
 						bool none = true;
+
+						//check horizontally
 						for (int k = 0; k < size; k++)
 						{
 							if (number == Board[i][k])
@@ -48,6 +64,7 @@ void Sudoku::solve()
 						}
 						if (none)
 						{
+							//check vertical
 							for (int k = 0; k < size; k++)
 							{
 								if (number == Board[k][j])
@@ -63,10 +80,12 @@ void Sudoku::solve()
 						}
 						if (none)
 						{
+							//Find in which 3x3 square the cell is located.
 							int ii;
 							int lengthI;
-							int lengthJ;
+
 							int jj;
+							int lengthJ;
 							if (size - i > 6)
 							{
 								ii = 0;
@@ -97,6 +116,8 @@ void Sudoku::solve()
 								jj = 6;
 								lengthJ = 9;
 							}
+
+							//Looking for coincidence in the square.
 							for (int l = ii; l < lengthI; l++)
 							{
 
@@ -114,10 +135,12 @@ void Sudoku::solve()
 								}
 							}
 						}
-
+						
+						//number is good to add
 						if (none)
 						{
-							quantity++;
+							//the number matches
+							coincidences++;
 							selectedNumber = number;
 							continue;
 						}
@@ -125,10 +148,15 @@ void Sudoku::solve()
 						{
 							continue;
 						}
-						if (quantity > 1)
+
+						//if there is more than one match, go to the next cell
+						//stops the cycle
+						if (coincidences > 1)
 							break;
 					}
-					if (quantity == 1)
+
+					//after the end of the cycle, if there is only one match, means add the number to the cell
+					if (coincidences == 1)
 					{
 						Board[i][j] = selectedNumber;
 					}
