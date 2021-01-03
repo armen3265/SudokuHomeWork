@@ -1,13 +1,20 @@
 #pragma once
+#ifndef SUDOKU_H
+#define SUDOKU_H
+
+#include <iostream>
+#include <string>
 
 class Sudoku
 {
 public:
 	static const int size = 9;
-	void enterDigits();
+	void enterDigits(std::string board[size]);
 	void solve();
 	void print();
-	
+  std::string answer();
 private:
-	int Board[size][size];
+	std::string Board[size];
 };
+
+#endif // !SUDOKU_H
