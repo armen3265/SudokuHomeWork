@@ -1,23 +1,23 @@
 #include "sudoku.h"
-#include <iostream>
 
-void Sudoku::enterDigits()
+std::string Sudoku::answer()
+{
+  std::string answer;
+  for(int i = 0; i < size; i++)
+  {
+    answer += Board[i];
+  }
+  return answer;
+}
+
+void Sudoku::enterDigits(std::string board[size])
 {
 	//add numbers, empty squares add "0"
-	std::cout << "Please add numbers from 1 to 9." << std::endl;
+	
 	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j < size; j++)
-		{
-			int number;
-			std::cin >> number;
-			if(number<1 || number>9)
-				Board[i][j]=0;
-			else
-				Board[i][j] = number;
-		}
+		Board[i] = board[i];
 	}
-	std::cout << "Thanks!All numbers have been added successfully." << std::endl;
 }
 
 void Sudoku::solve()
@@ -27,23 +27,25 @@ void Sudoku::solve()
 
 	while (!finish)
 	{
+		int zeros = 0;
+		bool hard = true;
 		//if it finds at least one empty cell, the "finish" is changed to false
 		finish = true;
 		for (int i = 0; i < size; i++)
 		{
 			for (int j = 0; j < size; j++)
 			{
-				if (Board[i][j] == 0)
+				if (Board[i][j] == '0')
 				{
+					zeros++;
 					//found an empty cell, the cycle will continue
 					finish = false;
 
 					//check how many possible coincidences are in one cell
 					int coincidences = 0;
 
-
-					int selectedNumber;
-					for (int number = 1; number <= size; number++)
+					char selectedNumber;
+					for (char number = '1'; number <= '9'; number++)
 					{
 
 						//is the number checked for the cell? If no non=false, go to the next number
@@ -135,7 +137,7 @@ void Sudoku::solve()
 								}
 							}
 						}
-						
+
 						//number is good to add
 						if (none)
 						{
@@ -158,6 +160,7 @@ void Sudoku::solve()
 					//after the end of the cycle, if there is only one match, means add the number to the cell
 					if (coincidences == 1)
 					{
+						hard = false;
 						Board[i][j] = selectedNumber;
 					}
 				}
@@ -166,6 +169,10 @@ void Sudoku::solve()
 					continue;
 				}
 			}
+		}
+		if (hard && zeros!=0)
+		{
+			throw std::runtime_error("The task is difficult and impossible to solve");
 		}
 	}
 }
@@ -181,5 +188,3 @@ void Sudoku::print()
 		std::cout << std::endl;
 	}
 }
-
-
