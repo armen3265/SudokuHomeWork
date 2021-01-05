@@ -9,7 +9,7 @@ int main()
         try
         {
                 Sudoku sudoku;
-                std::string board[sudoku.size];
+                std::array<std::string, Sudoku::size> board;
 
                 std::cout << "Please add numbers from 1 to 9." << "\n\n";
                 for (int i = 0; i < sudoku.size; i++)
