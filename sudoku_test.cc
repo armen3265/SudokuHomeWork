@@ -7,7 +7,7 @@ TEST(SudokuTest, hardest) {
         try
         {
                 Sudoku sudoku;
-                std::string task[sudoku.size] =
+                std::array<std::string,Sudoku::size> task =
                 {
                         "000000000",
                         "030000160",
@@ -21,7 +21,7 @@ TEST(SudokuTest, hardest) {
                 };
                 sudoku.enterDigits(task);
                 sudoku.solve();
-}
+        }
         catch (const std::exception&)
         {
                 is_hard = true;
@@ -32,7 +32,7 @@ TEST(SudokuTest, hardest) {
 TEST(SudokuTest, solved)
 {
   Sudoku sudoku;
-  std::string task[9] =
+  std::array<std::string,Sudoku::size> task =
   {
         "530070000",
         "600195000",
