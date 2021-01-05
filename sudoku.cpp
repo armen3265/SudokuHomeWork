@@ -9,7 +9,7 @@ std::string Sudoku::answer()
   return answer;
 }
 
-void Sudoku::enterDigits(const std::string &board[size])
+void Sudoku::enterDigits(const std::string board[size])
 {
 	//add numbers, empty squares add "0"
 	
