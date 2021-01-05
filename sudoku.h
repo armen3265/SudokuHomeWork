@@ -9,7 +9,7 @@ class Sudoku
 {
 public:
 	static const int size = 9;
-	void enterDigits(std::string board[size]);
+	void enterDigits(const std::string &board[size]);
 	void solve();
 	void print();
   std::string answer();
